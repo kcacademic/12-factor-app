@@ -10,27 +10,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baeldung.domain.Movie;
-import com.baeldung.repository.MovieRepository;
+import com.baeldung.service.MovieService;
 
 @RestController
 public class MovieController {
+    @Autowired
+    private MovieService movieService;
 
-	@Autowired
-	private MovieRepository movieRepository;
+    @GetMapping("/movies")
+    public List<Movie> retrieveAllMovies() {
+        return movieService.retrieveAllMovies();
+    }
 
-	@GetMapping("/movies")
-	public List<Movie> retrieveAllStudents() {
-		return movieRepository.findAll();
-	}
+    @GetMapping("/movies/{id}")
+    public Movie retrieveMovies(@PathVariable Long id) {
+        return movieService.retrieveMovies(id);
+    }
 
-	@GetMapping("/movies/{id}")
-	public Movie retrieveStudent(@PathVariable Long id) {
-		return movieRepository.findById(id).get();
-	}
-
-	@PostMapping("/movies")
-	public Long createStudent(@RequestBody Movie movie) {
-		return movieRepository.save(movie).getId();
-	}
-
+    @PostMapping("/movies")
+    public Long createMovie(@RequestBody Movie movie) {
+        return movieService.createMovie(movie);
+    }
 }
